@@ -633,10 +633,22 @@ class Builder
             }
 
             if ($item->hasChildren()) {
+                if (!empty($this->conf('container_for_sub_menu'))) {
+                    $items .= '<' . $this->conf('container_for_sub_menu');
+                    if (!empty($this->conf('container_class_for_sub_menu'))) {
+                        $items .= ' class="' . $this->conf('container_class_for_sub_menu') . '"';
+                    }
+                    $items .= '>';
+                }
+
                 $items .= '<'.$type.self::attributes($children_attributes).'>';
                 // Recursive call to children.
                 $items .= $this->render($type, $item->id, $children_attributes, $item_attributes, $item_after_calback, $item_after_calback_params);
                 $items .= "</{$type}>";
+
+                if (!empty($this->conf('container_for_sub_menu'))) {
+                    $items .= '</' . $this->conf('container_for_sub_menu') . '>';
+                }
             }
 
             $items .= "</{$item_tag}>";
